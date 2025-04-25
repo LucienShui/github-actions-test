@@ -1,0 +1,44 @@
+name: Registry push
+
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/import-ai/omnibox-backend
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Debug docker meta
+        run: |
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
+          echo "Tags list: ${{ steps.meta.outputs.tags_list }}"
+          echo "Digest: ${{ steps.meta.outputs.digest }}"
+          echo "Image name: ${{ steps.meta.outputs.image_name }}"
+
+      - name: Debug github event
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Event action: ${{ github.event.action }}"
+          echo "Event ref: ${{ github.ref }}"
+          echo "Event sha: ${{ github.sha }}"
