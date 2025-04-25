@@ -36,6 +36,10 @@ jobs:
           echo "Tags labels: ${{ steps.meta.outputs.labels }}"
           echo "Outputs: ${{ steps.meta.outputs }}"
 
+      - name: Debug github
+        run: |
+          echo "GITHUB: ${{ toJson(github) }}"
+
       - name: Debug github event
         run: |
           echo "Event: ${{ toJson(github.event) }}"
@@ -66,8 +70,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          push: true
           context: .
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: |
