@@ -21,8 +21,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/${{ toLower(github.repository) }}
-            ${{ toLower(github.repository) }}
+            ghcr.io/lucienshui/github-actions-test
+            lucienshui/github-actions-test
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -53,14 +53,14 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ toLower(github.repository_owner) }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to ghcr.io Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ toLower(github.repository_owner) }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
