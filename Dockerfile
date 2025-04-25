@@ -1,2 +1,4 @@
 FROM python:3.12-alpine
-RUN apk add --no-cache vim
+WORKDIR /app
+COPY . .
+CMD ["python", "main.py"]
