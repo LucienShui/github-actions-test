@@ -47,6 +47,9 @@ jobs:
           echo "Event action: ${{ github.event.action }}"
           echo "Event ref: ${{ github.ref }}"
           echo "Event sha: ${{ github.sha }}"
+          echo "Git repo short sha:"
+          git rev-parse --short=7 HEAD
+          echo "Short sha: ${{ github.sha[0:7] }}"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
