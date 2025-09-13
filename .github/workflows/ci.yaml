@@ -36,6 +36,12 @@ jobs:
           echo "Tags labels: ${{ steps.meta.outputs.labels }}"
           echo "Outputs: ${{ steps.meta.outputs }}"
 
+      - name: Short sha
+        run: |
+          echo "Short sha: $(git rev-parse --short=7 HEAD)"
+          echo "${GITHUB_SHA}"
+          echo "${GITHUB_SHA::7}"
+
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
