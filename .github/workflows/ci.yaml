@@ -36,17 +36,45 @@ jobs:
           echo "Tags labels: ${{ steps.meta.outputs.labels }}"
           echo "Outputs: ${{ steps.meta.outputs }}"
 
-      - name: Debug github
+      - name: Short sha
         run: |
-          echo "GITHUB: ${{ toJson(github) }}"
+          echo "Short sha: $(git rev-parse --short=7 HEAD)"
+          echo "${GITHUB_SHA}"
+          echo "${GITHUB_SHA::7}"
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
 
       - name: Debug github event
         run: |
-          echo "Event: ${{ toJson(github.event) }}"
           echo "Event name: ${{ github.event_name }}"
           echo "Event action: ${{ github.event.action }}"
           echo "Event ref: ${{ github.ref }}"
           echo "Event sha: ${{ github.sha }}"
+          echo "Git repo short sha:"
+          git rev-parse --short=7 HEAD
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
