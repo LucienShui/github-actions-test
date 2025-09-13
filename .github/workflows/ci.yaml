@@ -38,7 +38,7 @@ jobs:
 
       - name: Debug github
         run: |
-          echo "GITHUB: ${{ toJson(github) }}"
+          echo "GITHUB: ${{ github }}"
 
       - name: Debug github event
         run: |
